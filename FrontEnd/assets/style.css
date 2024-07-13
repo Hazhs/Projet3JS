@@ -156,10 +156,13 @@ nav img  {
 	margin: 0px 10px 0px 10px;
 }
 
-.filter-selected {
+.selected-filter, .filter article:hover {
 	color:#FFFEF8;
 	background-color: #1D6154;
+	cursor: pointer;
 }
+
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -217,6 +220,10 @@ input[type="submit"]{
 
 /***** Login page *****/
 
+.errorMessage {
+	color :red;
+	font-size: 16px;
+}
 .login-section, .login-section form{
 	display: flex;
 	flex-direction: column;
@@ -246,7 +253,7 @@ input[type="submit"]{
 	color: black;
 }
 
-button {
+#submit-btn {
 	color: white;
 	background-color: #1D6154;
 	padding : 10px 45px 10px 45px;
@@ -256,6 +263,9 @@ button {
 	border: none;
 }
 
+button {
+	opacity: 1;
+}
 
 /**** Footer ****/
 footer {
