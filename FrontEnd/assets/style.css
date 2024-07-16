@@ -135,10 +135,43 @@ nav img  {
 #introduction p {
 	margin-bottom: 0.5em;
 }
-#portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
+
+.project-title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width : 100%;
+	margin-bottom: 25px;
+	height: 100px;
 }
+
+.project-title h2 {
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	position: relative;
+}
+
+.change-btn {
+	font-size: 14px;
+	position: absolute;
+	right: -60%;
+	top: 30%;
+	
+	display: flex;
+	justify-content: center;
+	margin-bottom: 25px;
+	cursor: pointer;
+	text-decoration: none;
+	color: black;
+}
+
+.change-btn p {
+	padding-left: 5px;
+}
+
+
+/* Filter */
 
 .filter {
 	display: flex;
@@ -147,6 +180,8 @@ nav img  {
 	margin-bottom: 35px;
 	color:#1D6154;
 	font-weight: bold;
+	position: relative;
+	top: -20px;
 }
 
 .filter article {
@@ -162,6 +197,101 @@ nav img  {
 	cursor: pointer;
 }
 
+/* Modal */
+
+.modal {
+	display: none;
+}
+.modal-background {
+	z-index: 4;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height : 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	
+}
+.modal-interface {
+	z-index: 5;
+	background-color: white;
+	height: 85%;
+	width: 35%;
+	position: fixed;
+	top: 20px;
+
+	border-radius: 15px;
+	padding : 35px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.modal-interface .fa-xmark {
+	cursor: pointer;
+	align-self: flex-end;
+}
+
+.display-modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-interface h3 {
+	text-align: center;
+	font-size : 35px;
+	padding : 40px 0px 40px 0px;
+}
+
+.modal-gallery {
+	width: 75%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 10px;
+	height:65%;
+}
+
+.modal-gallery figure {
+	position: relative;
+}
+
+.modal-gallery img {
+	width: 100%;
+}
+
+.fa-trash-can {
+	z-index: 6;
+	height: 15px;
+	width: 13px;
+	padding: 5px;
+	border-radius: 5px;
+	color: white;
+	background-color: black;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	cursor: pointer;
+}
+
+.modal-gallery-bottom {
+	width: 70%;
+	display: flex;
+	align-self: center;
+	justify-content: center;
+	position: absolute;
+	bottom: 5px;
+	border-top: 2px solid gray;
+}
+.modal-gallery-bottom button {
+	margin-top : 0px;
+	margin : 40px 50px 40px 50px; 
+	display: flex;
+	justify-content: center;
+}
+
+
+/* Gallery */
 
 .gallery {
 	width: 100%;
@@ -175,6 +305,8 @@ nav img  {
 	width: 100%;
 
 }
+
+/* Contact form */
 #contact {
 	width: 50%;
 margin: auto;
@@ -207,7 +339,7 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+input[type="submit"] {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -218,6 +350,9 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+.hide {
+	display: none;
+}
 /***** Login page *****/
 
 .errorMessage {
@@ -253,7 +388,8 @@ input[type="submit"]{
 	color: black;
 }
 
-#submit-btn {
+#submit-btn, .gallery-btn {
+	font-family: 'Syne';
 	color: white;
 	background-color: #1D6154;
 	padding : 10px 45px 10px 45px;

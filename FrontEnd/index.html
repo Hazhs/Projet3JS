@@ -8,6 +8,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
+    <script src="https://kit.fontawesome.com/698dcf83ea.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./assets/style.css">
 	<script type="module" src="services/function.js"></script>
 	<script type="module" src="script.js"></script>
@@ -21,8 +22,9 @@
 			<li>
 				<a href="#contact">contact</a>
 			</li>
-			<li class="login-btn">
-				<a href="login.html">login</a>
+			<li >
+				<a href="login.html" class="login-btn">login</a>
+				<a href="index.html" class="logout-btn hide">logout</a>
 			</li>
 			<li>
 				<img src="./assets/icons/instagram.png" alt="Instagram">
@@ -43,11 +45,33 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="project-title">
+			<h2>
+				Mes Projets
+				<a href="#modal-pop" class="change-btn hide">
+					<i class="fa-regular fa-pen-to-square"></i>
+					<p>modifier</p>
+				</a>
+			</h2>
+		</div>
 		<div class="filter">
 			<article>Tous</article>
 		</div>
+		<div class="modal" >
+			<div class="modal-background" id="modal-pop"></div>
+			<div class="modal-interface">
+				<i class="fa-solid fa-xmark fa-xl"></i>
+				<h3>Galerie photo</h3>
+				<div class="modal-gallery">
+				</div>
+				<div class="modal-gallery-bottom">
+					<button class="gallery-btn">Ajouter une photo</button>
+				</div>
+			</div>
+		</div>
+		
 		<div class="gallery"></div>
+		
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>
