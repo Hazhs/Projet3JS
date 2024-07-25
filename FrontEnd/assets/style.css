@@ -152,7 +152,7 @@ nav img  {
 	position: relative;
 }
 
-.change-btn {
+.modify-btn {
 	font-size: 14px;
 	position: absolute;
 	right: -60%;
@@ -166,10 +166,13 @@ nav img  {
 	color: black;
 }
 
-.change-btn p {
-	padding-left: 5px;
+.modify-btn i {
+	padding-right: 5px;
 }
 
+.fa-arrow-left, .fa-trash-can,.selected-filter, .filter article:hover, .modal-interface .fa-xmark, button {
+	cursor: pointer;
+}
 
 /* Filter */
 
@@ -194,7 +197,6 @@ nav img  {
 .selected-filter, .filter article:hover {
 	color:#FFFEF8;
 	background-color: #1D6154;
-	cursor: pointer;
 }
 
 /* Modal */
@@ -215,11 +217,10 @@ nav img  {
 .modal-interface {
 	z-index: 5;
 	background-color: white;
-	height: 85%;
+	height: 80%;
 	width: 35%;
 	position: fixed;
-	top: 20px;
-
+	top: 5%;
 	border-radius: 15px;
 	padding : 35px;
 	display: flex;
@@ -227,8 +228,18 @@ nav img  {
 	align-items: center;
 }
 
+.modal-gallery-interface, .modal-add-work {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 80%;
+	height: 100%;
+}
+
+
+
 .modal-interface .fa-xmark {
-	cursor: pointer;
+	z-index: 10;
 	align-self: flex-end;
 }
 
@@ -240,16 +251,17 @@ nav img  {
 
 .modal-interface h3 {
 	text-align: center;
-	font-size : 35px;
-	padding : 40px 0px 40px 0px;
+	font-size : 30px;
+	padding : 30px 0px 40px 0px;
 }
 
 .modal-gallery {
-	width: 75%;
+	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-column-gap: 10px;
-	height:65%;
+	grid-auto-rows: 130px;
+	height:80%;
 }
 
 .modal-gallery figure {
@@ -271,25 +283,102 @@ nav img  {
 	position: absolute;
 	top: 5px;
 	right: 5px;
-	cursor: pointer;
 }
 
-.modal-gallery-bottom {
-	width: 70%;
-	display: flex;
-	align-self: center;
-	justify-content: center;
+.fa-arrow-left {
 	position: absolute;
-	bottom: 5px;
-	border-top: 2px solid gray;
+	top : 37px;
+	left : 30px;
 }
-.modal-gallery-bottom button {
-	margin-top : 0px;
-	margin : 40px 50px 40px 50px; 
+
+.modal-add-work h3 {
+	padding: 25px 0 35px 0;
+}
+.modal-add-work form {
 	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	height: 90%;
+	width: 100%;
+	border-bottom: 60px solid transparent;
+}
+
+.modal-add-work form input, .modal-add-work form select {
+	width: 100%;
+	height: 50px;
+	background-color: white;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	box-sizing: border-box;
+}
+
+.modal-add-work form input {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.modal-add-work form select {
+	width: 100%;
+	text-indent: 5px;
+	border-right: 16px solid transparent;
+}
+
+.modal-add-work form label {
+	margin-top: 30px;
+	align-self: flex-start;
+}
+
+.modal-add-work button {
+	width: 50%;
+	background-color: gray;
+}
+
+.modal-add-work .modal-bottom-separation, .modal-gallery-interface .modal-bottom-separation{
+	width: 100%;
+	border-top: 2px solid GRAY;
+	height: 20%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	justify-content: center;
 }
 
+.img-area {
+	background-color: #E8F1F6;
+	width: 100%;
+	height: 45%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px 0 20px 0;
+	box-sizing: content-box;
+}
+
+.img-area i {
+	color : #CBD6DC;
+}
+
+.img-area button {
+	position:initial;
+	border : none;
+	color: #306685;
+	background-color: #CBD6DC;
+	font-family: 'Syne';
+	padding : 10px 15px 10px 15px;
+	margin: 0 0 15px 0;
+	border-radius: 30px;
+	font-size: 18px;
+	margin-top: 10px;
+	border: none;
+	width: 60%;
+}
+
+#img-to-add {
+	display: none;
+}
 
 /* Gallery */
 
@@ -309,7 +398,7 @@ nav img  {
 /* Contact form */
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
 #contact > * {
 	text-align: center;
@@ -350,9 +439,7 @@ input[type="submit"] {
 	border-radius: 60px ;
 }
 
-.hide {
-	display: none;
-}
+
 /***** Login page *****/
 
 .errorMessage {
@@ -388,7 +475,7 @@ input[type="submit"] {
 	color: black;
 }
 
-#submit-btn, .gallery-btn {
+#submit-btn, .modal-gallery-btn, .modal-gallery-btn-add {
 	font-family: 'Syne';
 	color: white;
 	background-color: #1D6154;
@@ -417,4 +504,8 @@ footer nav ul {
 	position: absolute;
 	bottom : 10px;
 	right: 25px;
+}
+
+.hide {
+	display: none;
 }

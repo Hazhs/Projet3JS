@@ -1,66 +1,78 @@
-import { filterCreation,workArrayFiltered,workCreation,classFiltered,modalGalleryCreation } from "./services/function.js";
+import { filterCreation,workArrayFiltered,filteredClassBtn,modalGalleryCreation, modalDisplay, showPortfolio, displaySwitch, workDelete } from "./services/function.js";
 
-const works = await fetch("http://localhost:5678/api/works").then(works => works.json());
-const categories = await fetch("http://localhost:5678/api/categories").then(categories => categories.json());
+let works = await fetch("http://localhost:5678/api/works").then(works => works.json());
+let categories = await fetch("http://localhost:5678/api/categories").then(categories => categories.json());
 
-const filters = document.querySelector(".filter");
-const changeBtn = document.querySelector(".change-btn");
 const loginBtn = document.querySelector(".login-btn");
 const logoutBtn = document.querySelector(".logout-btn");
+const modifyBtn = document.querySelector(".modify-btn");
+const filters = document.querySelector(".filter");
+const modalGalleryInterface = document.querySelector(".modal-gallery-interface");
+const modalAddWork = document.querySelector(".modal-add-work");
+const galleryAddBtn = document.querySelector(".modal-gallery-btn");
+const modalArrowLeft = document.querySelector(".fa-arrow-left");
 
-//On crée la galerie de base des projets
-workCreation(works);
+let portfolioGallery = showPortfolio(works);
+let modalGallery = modalGalleryCreation(works);
 
-//De même pour la galerie du modal
-modalGalleryCreation(works);
-
-let token = window.localStorage.getItem("token");
-console.log("token : ", token); //null 
-
- //Puis la création des filtres 
-for (let i = 0 ;  i < categories.length ; i++) {
-    filterCreation(i)
-}
-
+let token = window.sessionStorage.getItem("token");
 logoutBtn.addEventListener("click", function() {
-    window.localStorage.removeItem("token")
-})
+    window.sessionStorage.removeItem("token")
+});
 
 if (token !== null) {
-    loginBtn.classList.toggle("hide");
-    logoutBtn.classList.toggle("hide");
-    filters.classList.toggle("hide");
-    changeBtn.classList.toggle("hide");
-}
+    const logedArray = [loginBtn, logoutBtn, modifyBtn, filters];
+    displaySwitch(logedArray);
+    modalDisplay()
+};
 
-const btnTous = filters.getElementsByTagName("article")[0];
-btnTous.classList.add("selected-filter");
-const btnObject = filters.getElementsByTagName("article")[1];
-const btnAppart = filters.getElementsByTagName("article")[2];
-const btnHotel = filters.getElementsByTagName("article")[3];
+for (let i = 0 ;  i < categories.length ; i++) {
+    filterCreation(i)
+};
 
-const filterArray = [btnTous, btnObject, btnAppart, btnHotel] 
+let filterArray = []; 
+for (let i = 0 ; i < categories.length + 1 ; i++) {
+    let filter = filters.getElementsByTagName("article")[i];
+    filterArray.push(filter)
+};
+filterArray[0].classList.add("selected-filter");
 
-// On boucle les événements click sur les filtres
-// et qui changera également l'apparence du filtre selectionné
 for (let i = 0 ; i < filterArray.length ; i++) {
+    filterArray[i].addEventListener('click', function () {
+    showPortfolio(workArrayFiltered(i));
+    filteredClassBtn(filterArray,filterArray[i])
+})};
 
-        filterArray[i].addEventListener('click', function () {
-        workCreation(workArrayFiltered(i));
-        classFiltered(filterArray,filterArray[i])
+const gallerySwitchArray = [modalGalleryInterface, modalAddWork];
+
+galleryAddBtn.addEventListener("click", function() {
+    displaySwitch(gallerySwitchArray)
+})
+
+modalArrowLeft.addEventListener("click", function() {
+    displaySwitch(gallerySwitchArray)
+})
+
+let trashCanArray = document.querySelectorAll(".fa-trash-can");
+
+trashCanArray.forEach(element => {
+
+    element.addEventListener("click",  function () {
+
+        const elementId = element.getAttribute("data-id");
+        workDelete(elementId, token);
+        const workRemove = document.querySelectorAll(`[data-id="${elementId}"]`);
+        const workRemoveArray = Array.from(workRemove);
+        displaySwitch(workRemoveArray);
+        
     })
-}
+})
 
+const formAddImgBtn = document.querySelector(".img-select");
+const addFileBtn = document.getElementById("img-to-add");
 
-//Gère l'ouverture et la fermeture de la fenêtre modale
-const modal = document.querySelector(".modal");
-const modalBackground = document.querySelector(".modal-background")
-const xmarkModal = document.querySelector(".fa-xmark");
-const modifyBtn = document.querySelector(".change-btn");
-const modalDisplay = [xmarkModal, modifyBtn, modalBackground]
+formAddImgBtn.addEventListener("click", function(event) {
+    event.preventDefault();
+    addFileBtn.click();
 
-for (let i = 0 ; i < modalDisplay.length ; i++) {
-    modalDisplay[i].addEventListener('click', function () {
-        modal.classList.toggle("display-modal")
-})}
-
+})

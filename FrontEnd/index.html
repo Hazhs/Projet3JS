@@ -48,9 +48,9 @@
 		<div class="project-title">
 			<h2>
 				Mes Projets
-				<a href="#modal-pop" class="change-btn hide">
+				<a href="#" class="modify-btn hide">
 					<i class="fa-regular fa-pen-to-square"></i>
-					<p>modifier</p>
+					modifier
 				</a>
 			</h2>
 		</div>
@@ -61,11 +61,36 @@
 			<div class="modal-background" id="modal-pop"></div>
 			<div class="modal-interface">
 				<i class="fa-solid fa-xmark fa-xl"></i>
-				<h3>Galerie photo</h3>
-				<div class="modal-gallery">
+				<div class="modal-gallery-interface">
+					<h3>Galerie photo</h3>
+					<div class="modal-gallery"></div>
+					<div class="modal-bottom-separation">
+						<button class="modal-gallery-btn">Ajouter une photo</button>
+					</div>
 				</div>
-				<div class="modal-gallery-bottom">
-					<button class="gallery-btn">Ajouter une photo</button>
+				<div class="modal-add-work hide">
+					<i class="fa-solid fa-arrow-left fa-xl"></i>
+					<h3>Ajout photo</h3>
+					<form action="#" method="POST">
+						<div class="img-area">
+							<input type="file" id="img-to-add" accept="image/jpg, image/png">
+							<i class="fa-regular fa-image fa-6x"></i>
+							<button class="img-select">+ Ajouter photo</button>
+							<h5> jpg, png : 4mo max</h5>
+						</div>
+						<label for="title">Titre</label>
+						<input type="text" name="title" id="title">
+						<label for="categories">Catégorie</label>
+						<select name="categories" id="categories">
+							<option value="default-option" selected>Sélectionner une catégorie</option>
+							<option value="objet">Objets</option>
+							<option value="appartements">Appartements</option>
+							<option value="hotels-et-restaurants">Hotels & Restaurants</option>
+						</select>
+					</form>
+					<div class="modal-bottom-separation">
+						<button class="modal-gallery-btn-add">Valider</button>
+					</div>
 				</div>
 			</div>
 		</div>
