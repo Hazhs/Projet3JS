@@ -260,8 +260,11 @@ nav img  {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-column-gap: 10px;
-	grid-auto-rows: 130px;
+	grid-auto-rows: 150px;
 	height:80%;
+	overflow-y: auto;
+	margin-bottom: 5px;
+	padding : 0 15px 0 15px
 }
 
 .modal-gallery figure {
@@ -269,7 +272,7 @@ nav img  {
 }
 
 .modal-gallery img {
-	width: 100%;
+	width: 100%;	
 }
 
 .fa-trash-can {
@@ -294,6 +297,10 @@ nav img  {
 .modal-add-work h3 {
 	padding: 25px 0 35px 0;
 }
+
+.modal-add-work {
+	box-sizing: border-box;
+}
 .modal-add-work form {
 	display: flex;
 	flex-direction: column;
@@ -301,7 +308,7 @@ nav img  {
 	justify-content: space-between;
 	height: 90%;
 	width: 100%;
-	border-bottom: 60px solid transparent;
+	border-bottom: 30px solid transparent;
 }
 
 .modal-add-work form input, .modal-add-work form select {
@@ -312,6 +319,7 @@ nav img  {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	box-sizing: border-box;
+	margin-top: 5px;
 }
 
 .modal-add-work form input {
@@ -348,13 +356,14 @@ nav img  {
 .img-area {
 	background-color: #E8F1F6;
 	width: 100%;
-	height: 45%;
+	height: 60%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
 	padding: 20px 0 20px 0;
 	box-sizing: content-box;
+	position: relative;
 }
 
 .img-area i {
@@ -374,6 +383,19 @@ nav img  {
 	margin-top: 10px;
 	border: none;
 	width: 60%;
+}
+
+.img-area img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	object-position: center;
+	object-fit: contain;
+}
+
+.img-display {
+	width: 100%;
+	height: 100%;
 }
 
 #img-to-add {

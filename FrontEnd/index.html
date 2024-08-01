@@ -73,30 +73,29 @@
 					<h3>Ajout photo</h3>
 					<form action="#" method="POST">
 						<div class="img-area">
-							<input type="file" id="img-to-add" accept="image/jpg, image/png">
+							<input type="file" id="img-to-add" accept=".jpg, .png, .jpeg">
 							<i class="fa-regular fa-image fa-6x"></i>
 							<button class="img-select">+ Ajouter photo</button>
-							<h5> jpg, png : 4mo max</h5>
+							<h5 class="valid-format"> jpg, png : 4mo max</h5>
+							<img src="#" alt=" " id="img-preview">
 						</div>
-						<label for="title">Titre</label>
-						<input type="text" name="title" id="title">
-						<label for="categories">Catégorie</label>
-						<select name="categories" id="categories">
-							<option value="default-option" selected>Sélectionner une catégorie</option>
-							<option value="objet">Objets</option>
-							<option value="appartements">Appartements</option>
-							<option value="hotels-et-restaurants">Hotels & Restaurants</option>
+						<label for="add-title">Titre</label>
+						<input type="text" name="title" id="add-title">
+						<label for="add-categories">Catégorie</label>
+						<select name="categories" id="add-categories">
+							<option value="0" selected>Sélectionner une catégorie</option>
+							<option value="1">Objets</option>
+							<option value="2">Appartements</option>
+							<option value="3">Hotels & Restaurants</option>
 						</select>
 					</form>
 					<div class="modal-bottom-separation">
-						<button class="modal-gallery-btn-add">Valider</button>
+						<button class="modal-gallery-btn modal-gallery-btn-add" id="add-work-btn">Valider</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		
 		<div class="gallery"></div>
-		
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>

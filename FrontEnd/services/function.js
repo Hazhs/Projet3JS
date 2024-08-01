@@ -6,49 +6,61 @@ const filters = document.querySelector(".filter");
 const modalGallery = document.querySelector(".modal-gallery")
 
 //Fonction qui crée les éléments visuels des galeries 
-function galleryVisual (workArrayVisual) {
+export function galleryVisual (workElementVisual) {
 
     const workFigure = document.createElement("figure");
     const workImg = document.createElement("img");
-    workFigure.dataset.id = workArrayVisual.id;
-    workImg.src = workArrayVisual.imageUrl;
-    workImg.alt = workArrayVisual.title;
+    workFigure.dataset.id = workElementVisual.id;
+    workImg.src = workElementVisual.imageUrl;
+    workImg.alt = workElementVisual.title;
     workFigure.appendChild(workImg);
     return workFigure
 }
 
-//Création d'élément gallery
+export function portfolioElementCreation (portfolioWorkElement) {
+
+    const portfolioElement = galleryVisual(portfolioWorkElement);
+    portfolioElement.dataset.id = portfolioWorkElement.id;
+    const workTitle = document.createElement("figcaption");
+    workTitle.innerText = portfolioWorkElement.title;
+    portfolioElement.appendChild(workTitle);
+
+    return portfolioElement
+}
+
 export function showPortfolio (workArrayCreation) {
 
-    let portfolioArray = [];
     gallery.innerHTML = " ";
+    let portfolioArray = [];
     for (let i = 0 ; i < workArrayCreation.length ; i++) {
 
-        const workElement = galleryVisual(workArrayCreation[i]);
-        //workElement.name = works[i].id;
-        const workTitle = document.createElement("figcaption");
-        workTitle.innerText = workArrayCreation[i].title;
-        workElement.appendChild(workTitle);
-        gallery.appendChild(workElement);
-        portfolioArray.push(workElement);
+        const portfolioElementToAdd = portfolioElementCreation(workArrayCreation[i])
+        gallery.appendChild(portfolioElementToAdd);
+        portfolioArray.push(portfolioElementToAdd);
 
     }
     return portfolioArray
 };
 
-//fonction qui crée la gallery du modal 
+function modalGalleryElementCreation (workToCreate) {
+
+    const workToAdd = galleryVisual(workToCreate);
+    workToAdd.dataset.id = workToCreate.id;
+    const modalGalleryIcon = document.createElement("i");
+    modalGalleryIcon.classList.add("fa-solid","fa-trash-can");
+    modalGalleryIcon.dataset.id = workToCreate.id;
+    workToAdd.appendChild(modalGalleryIcon);
+
+    return workToAdd
+}
+
 export function modalGalleryCreation (modalArray) {
 
     modalGallery.innerHTML = " ";
     let modalGalleryArray = [];
     for (let i = 0 ; i < modalArray.length ; i++) {
 
-        const modalGalleryElement = galleryVisual(modalArray[i]);
-        modalGalleryElement.dataset.id = works[i].id;
-        const modalGalleryIcon = document.createElement("i");
-        modalGalleryIcon.classList.add("fa-solid","fa-trash-can");
-        modalGalleryIcon.dataset.id = works[i].id;
-        modalGalleryElement.appendChild(modalGalleryIcon);
+        const modalGalleryElement = modalGalleryElementCreation(modalArray[i]);
         modalGallery.appendChild(modalGalleryElement);
         modalGalleryArray.push(modalGalleryElement);
 
@@ -56,7 +68,6 @@ export function modalGalleryCreation (modalArray) {
     return modalGalleryArray
 }
 
-//Création de filtre
 export function filterCreation (categoriesId) {
     
     const filterItem = document.createElement("article")
@@ -92,8 +103,6 @@ export function filteredClassBtn (ArrayToFilter, selectedFilter) {
     selectedFilter.classList.add("selected-filter")
 }
 
-//fonction qui récupère les entrées du formulaire, et l'envoit au serveur pour vérification
-
 export async function idServerCheck (loginEmailParameter, loginPasswordParameter) {
 
     let loginId = {
@@ -106,7 +115,7 @@ export async function idServerCheck (loginEmailParameter, loginPasswordParameter
     const loginServerResponse = await fetch("http://localhost:5678/api/users/login", {
         method: "POST", 
         headers: {
-        "Content-Type": "application/json",
+            "Content-Type": "application/json",
         },
         body: loginId,
     });
@@ -136,37 +145,11 @@ export function displaySwitch (ArrayToSwitch) {
 
     for (let i = 0 ; i < ArrayToSwitch.length ; i++) {
         ArrayToSwitch[i].classList.toggle("hide")
+    
     }
 }
 
-
-export async function addWork (formImg, formTitle, formCategoryId, token) {
-
-    workAddRequest = await fetch("http://localhost:5678/api/works", {
-        method: "POST", 
-        headers: {
-        'Authorization': `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-        },
-        body: {
-            "image" : formImg,
-            "title" : formTitle,
-            "category" : formCategoryId
-        }
-    })
-    // image (string)
-    // title (string)
-    // categoryId (number)
-}
-
-
-
-
-
-
-//Fonction qui supprime un travail et refresh la gallery modal
-
-export async function workDelete (workIdSupp, token) {
+async function workDelete (workIdSupp, token) {
 
     if (token === null) {
         console.log("Id non confirmé")
@@ -179,4 +162,41 @@ export async function workDelete (workIdSupp, token) {
             }
         })
     }
+}
+
+export async function newWork (formImg, formTitle, formCategoryId, token) {
+
+    const formData = new FormData();
+    formData.append("image", formImg);
+    formData.append("title", formTitle);
+    formData.append("category", formCategoryId);
+
+    const workAddRequest = await fetch("http://localhost:5678/api/works", {
+        method: "POST", 
+        headers: {
+        'Authorization': `Bearer ${token}`,
+        },
+        body: formData
+    });
+    return workAddRequest
+}
+
+export function addWorkToGalleries (NewWork) {
+
+    const modalGalleryNewElement = modalGalleryElementCreation(NewWork);
+    modalGallery.appendChild(modalGalleryNewElement);
+    const portfolioGalleryElement = portfolioElementCreation(NewWork);
+    gallery.appendChild(portfolioGalleryElement);
+    return modalGalleryNewElement
+
+}
+
+export function deleteElement (deletedElement, token) {
+
+    const elementId = deletedElement.getAttribute("data-id");
+    workDelete(elementId, token);
+    const workRemove = document.querySelectorAll(`[data-id="${elementId}"]`);
+    const workRemoveArray = Array.from(workRemove);
+    displaySwitch(workRemoveArray);
+
 }
