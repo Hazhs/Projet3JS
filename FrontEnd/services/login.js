@@ -1,7 +1,6 @@
-import {idServerCheck} from "./services/function.js";
+import {idServerCheckRequest} from "./function.js";
 const login = document.getElementById("connexion");
 const errorMessage = document.querySelector(".errorMessage");
-
 
 login.addEventListener('submit', async function (event) {
 
@@ -9,11 +8,10 @@ login.addEventListener('submit', async function (event) {
     errorMessage.innerText = " ";
     let loginEmail = document.getElementById("email").value;
     let loginPassword = document.getElementById("password").value;
-    const loginIdReturn = await idServerCheck(loginEmail, loginPassword);
-
+    const loginIdReturn = await idServerCheckRequest(loginEmail, loginPassword);
     if (Object.hasOwn(loginIdReturn, "token")) {
         const tokenUser = loginIdReturn.token;
-        window.sessionStorage.setItem("token", tokenUser)
+        window.sessionStorage.setItem("token", tokenUser);
         window.location.href = "index.html"
     }
     else {

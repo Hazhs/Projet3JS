@@ -3,10 +3,10 @@ let categories = await fetch("http://localhost:5678/api/categories").then(catego
 
 const gallery = document.querySelector(".gallery");
 const filters = document.querySelector(".filter");
-const modalGallery = document.querySelector(".modal-gallery")
+const modalGallery = document.querySelector(".modal-gallery");
 
-//Fonction qui crée les éléments visuels des galeries 
-export function galleryVisual (workElementVisual) {
+
+export function galleryVisualCreation (workElementVisual) {
 
     const workFigure = document.createElement("figure");
     const workImg = document.createElement("img");
@@ -15,58 +15,57 @@ export function galleryVisual (workElementVisual) {
     workImg.alt = workElementVisual.title;
     workFigure.appendChild(workImg);
     return workFigure
-}
+
+};
 
 export function portfolioElementCreation (portfolioWorkElement) {
 
-    const portfolioElement = galleryVisual(portfolioWorkElement);
+    const portfolioElement = galleryVisualCreation(portfolioWorkElement);
     portfolioElement.dataset.id = portfolioWorkElement.id;
     const workTitle = document.createElement("figcaption");
     workTitle.innerText = portfolioWorkElement.title;
     portfolioElement.appendChild(workTitle);
-
     return portfolioElement
-}
+
+};
 
 export function showPortfolio (workArrayCreation) {
 
     gallery.innerHTML = " ";
     let portfolioArray = [];
     for (let i = 0 ; i < workArrayCreation.length ; i++) {
-
-        const portfolioElementToAdd = portfolioElementCreation(workArrayCreation[i])
+        const portfolioElementToAdd = portfolioElementCreation(workArrayCreation[i]);
         gallery.appendChild(portfolioElementToAdd);
-        portfolioArray.push(portfolioElementToAdd);
-
+        portfolioArray.push(portfolioElementToAdd)
     }
     return portfolioArray
+
 };
 
 function modalGalleryElementCreation (workToCreate) {
 
-    const workToAdd = galleryVisual(workToCreate);
+    const workToAdd = galleryVisualCreation(workToCreate);
     workToAdd.dataset.id = workToCreate.id;
     const modalGalleryIcon = document.createElement("i");
     modalGalleryIcon.classList.add("fa-solid","fa-trash-can");
     modalGalleryIcon.dataset.id = workToCreate.id;
     workToAdd.appendChild(modalGalleryIcon);
-
     return workToAdd
-}
+
+};
 
 export function modalGalleryCreation (modalArray) {
 
     modalGallery.innerHTML = " ";
     let modalGalleryArray = [];
     for (let i = 0 ; i < modalArray.length ; i++) {
-
         const modalGalleryElement = modalGalleryElementCreation(modalArray[i]);
         modalGallery.appendChild(modalGalleryElement);
-        modalGalleryArray.push(modalGalleryElement);
-
+        modalGalleryArray.push(modalGalleryElement)
     }
     return modalGalleryArray
-}
+
+};
 
 export function filterCreation (categoriesId) {
     
@@ -74,26 +73,22 @@ export function filterCreation (categoriesId) {
     filterItem.innerText = categories[categoriesId].name;
     filters.appendChild(filterItem)
 
-}
+};
 
-//Fonction qui crée un array filtré par categoryID
-
-export function workArrayFiltered (categorieIdFilter) {
+export function filteredWorkArray (categorieIdFilter) {
 
     const workArray = Array.from(works);
     if (categorieIdFilter > 0) {
         for (let i = workArray.length-1 ; i >= 0 ; i--) {
             if (workArray[i].categoryId != categorieIdFilter) {
-                workArray.splice(i, 1);
+                workArray.splice(i, 1)
             }
         }
     }
     return workArray;  
-}
+};
 
-//fonction qui vérifie et enlève la classe à tous les boutons puis met la classe au bouton cliqué
-
-export function filteredClassBtn (ArrayToFilter, selectedFilter) {
+export function filteredBtnClassChange (ArrayToFilter, selectedFilter) {
 
     for (let index = 0; index < ArrayToFilter.length ; index++) {
         if (ArrayToFilter[index].classList.contains("selected-filter")) {
@@ -101,9 +96,9 @@ export function filteredClassBtn (ArrayToFilter, selectedFilter) {
         }        
     }
     selectedFilter.classList.add("selected-filter")
-}
+};
 
-export async function idServerCheck (loginEmailParameter, loginPasswordParameter) {
+export async function idServerCheckRequest (loginEmailParameter, loginPasswordParameter) {
 
     let loginId = {
         email: loginEmailParameter,
@@ -111,7 +106,6 @@ export async function idServerCheck (loginEmailParameter, loginPasswordParameter
     };
     loginId = JSON.stringify(loginId);
     console.log(loginId);
-    //On envoit au backend pour vérification
     const loginServerResponse = await fetch("http://localhost:5678/api/users/login", {
         method: "POST", 
         headers: {
@@ -123,13 +117,12 @@ export async function idServerCheck (loginEmailParameter, loginPasswordParameter
     console.log(loginResponse);
     return loginResponse
 
-}
+};
 
-//Gère l'ouverture et la fermeture de la fenêtre modale
 export function modalDisplay () {
 
     const modal = document.querySelector(".modal");
-    const modalBackground = document.querySelector(".modal-background")
+    const modalBackground = document.querySelector(".modal-background");
     const xmarkModal = document.querySelector(".fa-xmark");
     const modifyBtn = document.querySelector(".modify-btn");
     const modalDisplayArray = [xmarkModal, modifyBtn, modalBackground];
@@ -139,15 +132,14 @@ export function modalDisplay () {
             modal.classList.toggle("display-modal")
 
     })}
-}
+};
 
 export function displaySwitch (ArrayToSwitch) {
 
     for (let i = 0 ; i < ArrayToSwitch.length ; i++) {
         ArrayToSwitch[i].classList.toggle("hide")
-    
     }
-}
+};
 
 async function workDelete (workIdSupp, token) {
 
@@ -162,7 +154,7 @@ async function workDelete (workIdSupp, token) {
             }
         })
     }
-}
+};
 
 export async function newWork (formImg, formTitle, formCategoryId, token) {
 
@@ -170,7 +162,6 @@ export async function newWork (formImg, formTitle, formCategoryId, token) {
     formData.append("image", formImg);
     formData.append("title", formTitle);
     formData.append("category", formCategoryId);
-
     const workAddRequest = await fetch("http://localhost:5678/api/works", {
         method: "POST", 
         headers: {
@@ -179,7 +170,8 @@ export async function newWork (formImg, formTitle, formCategoryId, token) {
         body: formData
     });
     return workAddRequest
-}
+
+};
 
 export function addWorkToGalleries (NewWork) {
 
@@ -189,7 +181,7 @@ export function addWorkToGalleries (NewWork) {
     gallery.appendChild(portfolioGalleryElement);
     return modalGalleryNewElement
 
-}
+};
 
 export function deleteElement (deletedElement, token) {
 
@@ -198,5 +190,13 @@ export function deleteElement (deletedElement, token) {
     const workRemove = document.querySelectorAll(`[data-id="${elementId}"]`);
     const workRemoveArray = Array.from(workRemove);
     displaySwitch(workRemoveArray);
+
+};
+
+export function resetImgInputPreview (preview, previewInput) {
+
+    preview.src="";
+    preview.alt="";
+    previewInput.value=""
 
 }

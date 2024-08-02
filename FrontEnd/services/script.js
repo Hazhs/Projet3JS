@@ -1,4 +1,4 @@
-import { filterCreation, workArrayFiltered, filteredClassBtn, modalGalleryCreation, modalDisplay, showPortfolio, displaySwitch, newWork, addWorkToGalleries, deleteElement } from "./services/function.js";
+import { filterCreation, filteredWorkArray, filteredBtnClassChange, modalGalleryCreation, modalDisplay, showPortfolio, displaySwitch, newWork, addWorkToGalleries, deleteElement,resetImgInputPreview } from "./function.js";
 
 let works = await fetch("http://localhost:5678/api/works").then(works => works.json());
 showPortfolio(works);
@@ -31,8 +31,8 @@ for (let i = 0 ; i < categories.length + 1 ; i++) {
 filterArray[0].classList.add("selected-filter");
 for (let i = 0 ; i < filterArray.length ; i++) {
     filterArray[i].addEventListener('click', function () {
-    showPortfolio(workArrayFiltered(i));
-    filteredClassBtn(filterArray,filterArray[i])
+    showPortfolio(filteredWorkArray(i));
+    filteredBtnClassChange(filterArray,filterArray[i])
 })};
 
 const modalGalleryInterface = document.querySelector(".modal-gallery-interface");
@@ -62,9 +62,7 @@ let imgPreview = document.getElementById("img-preview");
 let addImgInput = document.getElementById("img-to-add");
 imgPreview.addEventListener("click", function () {
     imgPreview.classList.toggle("img-display");
-    imgPreview.alt="";   
-    imgPreview.src="";
-    addImgInput.value = "";
+    resetImgInputPreview(imgPreview, addImgInput);
     displaySwitch(imgAreaArray)
 })
 
@@ -110,14 +108,11 @@ addWorkBtn.addEventListener("click", async function (event) {
             alert("Veuillez Renseigner tous les champs")
         } else {
             let workAnswer = await workRequest.json();
-            console.log(workAnswer);
             const newWorkElement = addWorkToGalleries(workAnswer);
             const newWorkTrashCan = newWorkElement.querySelector(".fa-trash-can");
             newWorkTrashCan.addEventListener("click", () => deleteElement(newWorkTrashCan, token));
             console.log("nouvel élément ajouté : ", newWorkElement);
-            addImgInput.value = "";
-            imgPreview.src = "";
-            imgPreview.alt = "";
+            resetImgInputPreview(imgPreview, addImgInput);
             addTitle.value = "";
             selectedCategories.selectedIndex = 0;
             imgPreview.classList.toggle("img-display");

@@ -218,11 +218,11 @@ nav img  {
 	z-index: 5;
 	background-color: white;
 	height: 80%;
-	width: 35%;
+	width: 34%;
 	position: fixed;
 	top: 5%;
 	border-radius: 15px;
-	padding : 35px;
+	padding : 35px 35px 0 35px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -236,8 +236,6 @@ nav img  {
 	height: 100%;
 }
 
-
-
 .modal-interface .fa-xmark {
 	z-index: 10;
 	align-self: flex-end;
@@ -249,29 +247,36 @@ nav img  {
 	align-items: center;
 }
 
-.modal-interface h3 {
+.modal-interface h3, .modal-add-work h3 {
 	text-align: center;
 	font-size : 30px;
-	padding : 30px 0px 40px 0px;
+	padding : 20px 0px 30px 0px;
 }
 
 .modal-gallery {
-	width: 100%;
+	width:95%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	grid-column-gap: 10px;
+	grid-column-gap: 5px;
 	grid-auto-rows: 150px;
-	height:80%;
+	height: 78%;
 	overflow-y: auto;
-	margin-bottom: 5px;
-	padding : 0 15px 0 15px
+
+	margin-bottom: 30px;
 }
 
 .modal-gallery figure {
 	position: relative;
+	box-sizing: content-box;
+	width: 10;
+
+}
+.modal-gallery figure img {
+	width: 100%;
+	height: 120px;
 }
 
-.modal-gallery img {
+.modal-gallery img, .form-inputs {
 	width: 100%;	
 }
 
@@ -294,24 +299,18 @@ nav img  {
 	left : 30px;
 }
 
-.modal-add-work h3 {
-	padding: 25px 0 35px 0;
-}
-
-.modal-add-work {
-	box-sizing: border-box;
-}
+/* Modal Add work */
 .modal-add-work form {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
-	height: 90%;
+	justify-content: space-around;
+	height: 78%;
 	width: 100%;
-	border-bottom: 30px solid transparent;
+	margin-bottom: 30px;
 }
 
-.modal-add-work form input, .modal-add-work form select {
+.form-inputs input, .form-inputs select {
 	width: 100%;
 	height: 50px;
 	background-color: white;
@@ -322,33 +321,27 @@ nav img  {
 	margin-top: 5px;
 }
 
-.modal-add-work form input {
-	padding-left: 15px;
-	padding-right: 15px;
-}
-
-.modal-add-work form select {
+.modal-add-work form .form-inputs select {
 	width: 100%;
 	text-indent: 5px;
 	border-right: 16px solid transparent;
 }
 
-.modal-add-work form label {
-	margin-top: 30px;
+.modal-add-work form .form-inputs label {
 	align-self: flex-start;
 }
 
 .modal-add-work button {
 	width: 50%;
-	background-color: gray;
+	background-color: GREY;
 }
 
-.modal-add-work .modal-bottom-separation, .modal-gallery-interface .modal-bottom-separation{
+.modal-add-work .modal-bottom, .modal-gallery-interface .modal-bottom{
 	width: 100%;
 	border-top: 2px solid GRAY;
-	height: 20%;
+	height: 22%;
+	margin-top: 5px;
 	display: flex;
-	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 }
@@ -356,13 +349,13 @@ nav img  {
 .img-area {
 	background-color: #E8F1F6;
 	width: 100%;
-	height: 60%;
+	height: 43%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
-	padding: 20px 0 20px 0;
+	justify-content: space-around;
 	box-sizing: content-box;
+	padding: 15px 0 15px 0;
 	position: relative;
 }
 
@@ -504,10 +497,11 @@ input[type="submit"] {
 	padding : 10px 45px 10px 45px;
 	border-radius: 30px;
 	font-size: 18px;
-	margin-top: 10px;
 	border: none;
 }
-
+#submit-btn {
+	margin-top: 10px;
+}
 button {
 	opacity: 1;
 }

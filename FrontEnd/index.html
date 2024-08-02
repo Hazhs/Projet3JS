@@ -10,8 +10,8 @@
 	<meta name="description" content="">
     <script src="https://kit.fontawesome.com/698dcf83ea.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./assets/style.css">
-	<script type="module" src="services/function.js"></script>
-	<script type="module" src="script.js"></script>
+	<script type="module" src="./services/function.js"></script>
+	<script type="module" src="/services/script.js"></script>
 </head>
 <body>
 <header>
@@ -27,7 +27,9 @@
 				<a href="index.html" class="logout-btn hide">logout</a>
 			</li>
 			<li>
-				<img src="./assets/icons/instagram.png" alt="Instagram">
+				<a href="#" alt="instagram">
+					<i class="fa-brands fa-instagram fa-lg"></i>
+				</a>
 			</li>
 		</ul>
 	</nav>
@@ -64,7 +66,7 @@
 				<div class="modal-gallery-interface">
 					<h3>Galerie photo</h3>
 					<div class="modal-gallery"></div>
-					<div class="modal-bottom-separation">
+					<div class="modal-bottom">
 						<button class="modal-gallery-btn">Ajouter une photo</button>
 					</div>
 				</div>
@@ -79,17 +81,21 @@
 							<h5 class="valid-format"> jpg, png : 4mo max</h5>
 							<img src="#" alt=" " id="img-preview">
 						</div>
-						<label for="add-title">Titre</label>
-						<input type="text" name="title" id="add-title">
-						<label for="add-categories">Catégorie</label>
-						<select name="categories" id="add-categories">
-							<option value="0" selected>Sélectionner une catégorie</option>
-							<option value="1">Objets</option>
-							<option value="2">Appartements</option>
-							<option value="3">Hotels & Restaurants</option>
-						</select>
+						<div class="form-inputs">
+							<label for="add-title">Titre</label>
+							<input type="text" name="title" id="add-title">
+						</div>
+						<div class="form-inputs">
+							<label for="add-categories">Catégorie</label>
+							<select name="categories" id="add-categories">
+								<option value="0" selected>Sélectionner une catégorie</option>
+								<option value="1">Objets</option>
+								<option value="2">Appartements</option>
+								<option value="3">Hotels & Restaurants</option>
+							</select>
+						</div>
 					</form>
-					<div class="modal-bottom-separation">
+					<div class="modal-bottom">
 						<button class="modal-gallery-btn modal-gallery-btn-add" id="add-work-btn">Valider</button>
 					</div>
 				</div>
