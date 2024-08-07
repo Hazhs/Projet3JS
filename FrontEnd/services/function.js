@@ -1,13 +1,8 @@
-let works = await fetch("http://localhost:5678/api/works").then(works => works.json());
+
 let categories = await fetch("http://localhost:5678/api/categories").then(categories => categories.json());
-
-const gallery = document.querySelector(".gallery");
-const filters = document.querySelector(".filter");
-const modalGallery = document.querySelector(".modal-gallery");
-
+let works = await fetch("http://localhost:5678/api/works").then(works => works.json());
 
 export function galleryVisualCreation (workElementVisual) {
-
     const workFigure = document.createElement("figure");
     const workImg = document.createElement("img");
     workFigure.dataset.id = workElementVisual.id;
@@ -15,22 +10,18 @@ export function galleryVisualCreation (workElementVisual) {
     workImg.alt = workElementVisual.title;
     workFigure.appendChild(workImg);
     return workFigure
-
 };
 
 export function portfolioElementCreation (portfolioWorkElement) {
-
     const portfolioElement = galleryVisualCreation(portfolioWorkElement);
-    portfolioElement.dataset.id = portfolioWorkElement.id;
     const workTitle = document.createElement("figcaption");
     workTitle.innerText = portfolioWorkElement.title;
     portfolioElement.appendChild(workTitle);
     return portfolioElement
-
 };
 
+const gallery = document.querySelector(".gallery");
 export function showPortfolio (workArrayCreation) {
-
     gallery.innerHTML = " ";
     let portfolioArray = [];
     for (let i = 0 ; i < workArrayCreation.length ; i++) {
@@ -39,73 +30,56 @@ export function showPortfolio (workArrayCreation) {
         portfolioArray.push(portfolioElementToAdd)
     }
     return portfolioArray
-
 };
 
 function modalGalleryElementCreation (workToCreate) {
-
     const workToAdd = galleryVisualCreation(workToCreate);
-    workToAdd.dataset.id = workToCreate.id;
     const modalGalleryIcon = document.createElement("i");
     modalGalleryIcon.classList.add("fa-solid","fa-trash-can");
     modalGalleryIcon.dataset.id = workToCreate.id;
     workToAdd.appendChild(modalGalleryIcon);
     return workToAdd
-
 };
 
+const modalGallery = document.querySelector(".modal-gallery");
 export function modalGalleryCreation (modalArray) {
-
-    modalGallery.innerHTML = " ";
-    let modalGalleryArray = [];
     for (let i = 0 ; i < modalArray.length ; i++) {
         const modalGalleryElement = modalGalleryElementCreation(modalArray[i]);
         modalGallery.appendChild(modalGalleryElement);
-        modalGalleryArray.push(modalGalleryElement)
     }
-    return modalGalleryArray
-
 };
 
-export function filterCreation (categoriesId) {
-    
+const filters = document.querySelector(".filter");
+export function filterCreation (categoryId) {
     const filterItem = document.createElement("article")
-    filterItem.innerText = categories[categoriesId].name;
+    filterItem.innerText = categories[categoryId].name;
     filters.appendChild(filterItem)
-
 };
 
-export function filteredWorkArray (categorieIdFilter) {
-
+export function filteredWorkArray (categoryIdFilter) {
     const workArray = Array.from(works);
-    if (categorieIdFilter > 0) {
+    if (categoryIdFilter > 0) {
         for (let i = workArray.length-1 ; i >= 0 ; i--) {
-            if (workArray[i].categoryId != categorieIdFilter) {
+            if (workArray[i].categoryId != categoryIdFilter) {
                 workArray.splice(i, 1)
-            }
-        }
-    }
+            }}}
     return workArray;  
 };
 
 export function filteredBtnClassChange (ArrayToFilter, selectedFilter) {
-
-    for (let index = 0; index < ArrayToFilter.length ; index++) {
-        if (ArrayToFilter[index].classList.contains("selected-filter")) {
-            ArrayToFilter[index].classList.remove("selected-filter")
-        }        
-    }
+    for (let i = 0; i < ArrayToFilter.length ; i++) {
+        if (ArrayToFilter[i].classList.contains("selected-filter")) {
+            ArrayToFilter[i].classList.remove("selected-filter")
+        }}
     selectedFilter.classList.add("selected-filter")
 };
 
 export async function idServerCheckRequest (loginEmailParameter, loginPasswordParameter) {
-
     let loginId = {
         email: loginEmailParameter,
         password: loginPasswordParameter
     };
     loginId = JSON.stringify(loginId);
-    console.log(loginId);
     const loginServerResponse = await fetch("http://localhost:5678/api/users/login", {
         method: "POST", 
         headers: {
@@ -114,35 +88,28 @@ export async function idServerCheckRequest (loginEmailParameter, loginPasswordPa
         body: loginId,
     });
     const loginResponse = await loginServerResponse.json();
-    console.log(loginResponse);
     return loginResponse
-
 };
 
 export function modalDisplay () {
-
     const modal = document.querySelector(".modal");
     const modalBackground = document.querySelector(".modal-background");
     const xmarkModal = document.querySelector(".fa-xmark");
     const modifyBtn = document.querySelector(".modify-btn");
     const modalDisplayArray = [xmarkModal, modifyBtn, modalBackground];
-
     for (let i = 0 ; i < modalDisplayArray.length ; i++) {
         modalDisplayArray[i].addEventListener('click', function () {
             modal.classList.toggle("display-modal")
-
     })}
 };
 
 export function displaySwitch (ArrayToSwitch) {
-
     for (let i = 0 ; i < ArrayToSwitch.length ; i++) {
         ArrayToSwitch[i].classList.toggle("hide")
     }
 };
 
 async function workDelete (workIdSupp, token) {
-
     if (token === null) {
         console.log("Id non confirmé")
     } else {
@@ -151,13 +118,19 @@ async function workDelete (workIdSupp, token) {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
-            }
-        })
+            }})
     }
 };
 
-export async function newWork (formImg, formTitle, formCategoryId, token) {
+export function deleteGalleriesElements (deletedElement, token) {
+    const elementId = deletedElement.getAttribute("data-id");
+    workDelete(elementId, token);
+    const workRemove = document.querySelectorAll(`[data-id="${elementId}"]`);
+    const workRemoveArray = Array.from(workRemove);
+    displaySwitch(workRemoveArray);
+};
 
+export async function newWork (formImg, formTitle, formCategoryId, token) {
     const formData = new FormData();
     formData.append("image", formImg);
     formData.append("title", formTitle);
@@ -170,33 +143,20 @@ export async function newWork (formImg, formTitle, formCategoryId, token) {
         body: formData
     });
     return workAddRequest
-
 };
 
 export function addWorkToGalleries (NewWork) {
-
     const modalGalleryNewElement = modalGalleryElementCreation(NewWork);
     modalGallery.appendChild(modalGalleryNewElement);
     const portfolioGalleryElement = portfolioElementCreation(NewWork);
     gallery.appendChild(portfolioGalleryElement);
     return modalGalleryNewElement
-
 };
 
-export function deleteElement (deletedElement, token) {
 
-    const elementId = deletedElement.getAttribute("data-id");
-    workDelete(elementId, token);
-    const workRemove = document.querySelectorAll(`[data-id="${elementId}"]`);
-    const workRemoveArray = Array.from(workRemove);
-    displaySwitch(workRemoveArray);
-
-};
 
 export function resetImgInputPreview (preview, previewInput) {
-
     preview.src="";
     preview.alt="";
     previewInput.value=""
-
 }

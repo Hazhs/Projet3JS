@@ -1,25 +1,10 @@
-import { filterCreation, filteredWorkArray, filteredBtnClassChange, modalGalleryCreation, modalDisplay, showPortfolio, displaySwitch, newWork, addWorkToGalleries, deleteElement,resetImgInputPreview } from "./function.js";
+import { filterCreation, filteredWorkArray, filteredBtnClassChange, modalGalleryCreation, modalDisplay, showPortfolio, displaySwitch, newWork, addWorkToGalleries, deleteGalleriesElements,resetImgInputPreview } from "./function.js";
 
 let works = await fetch("http://localhost:5678/api/works").then(works => works.json());
 showPortfolio(works);
-modalGalleryCreation(works);
-
-const logoutBtn = document.querySelector(".logout-btn");
-let token = window.sessionStorage.getItem("token");
-logoutBtn.addEventListener("click", function() {
-    window.sessionStorage.removeItem("token")
-});
-
-const loginBtn = document.querySelector(".login-btn");
-const modifyBtn = document.querySelector(".modify-btn");
-const filters = document.querySelector(".filter");
-if (token !== null) {
-    const logedArray = [loginBtn, logoutBtn, modifyBtn, filters];
-    displaySwitch(logedArray);
-    modalDisplay()
-};
 
 let categories = await fetch("http://localhost:5678/api/categories").then(categories => categories.json());
+const filters = document.querySelector(".filter");
 for (let i = 0 ;  i < categories.length ; i++) {
     filterCreation(i)
 };
@@ -34,6 +19,22 @@ for (let i = 0 ; i < filterArray.length ; i++) {
     showPortfolio(filteredWorkArray(i));
     filteredBtnClassChange(filterArray,filterArray[i])
 })};
+
+const logoutBtn = document.querySelector(".logout-btn");
+let token = window.sessionStorage.getItem("token");
+logoutBtn.addEventListener("click", function() {
+    window.sessionStorage.removeItem("token")
+});
+const loginBtn = document.querySelector(".login-btn");
+const modifyBtn = document.querySelector(".modify-btn");
+if (token !== null) {
+    const logedArray = [loginBtn, logoutBtn, modifyBtn];
+    displaySwitch(logedArray);
+    modalGalleryCreation(works);
+    modalDisplay()
+} else {
+    filters.classList.toggle("hide")
+};
 
 const modalGalleryInterface = document.querySelector(".modal-gallery-interface");
 const modalAddWork = document.querySelector(".modal-add-work");
@@ -50,21 +51,21 @@ modalArrowLeft.addEventListener("click", function() {
 const trashCanElement = document.querySelectorAll(".fa-trash-can");
 let trashCanArray = Array.from(trashCanElement);
 trashCanArray.forEach(element => {
-    element.addEventListener("click", () => deleteElement(element, token))
+    element.addEventListener("click", () => deleteGalleriesElements(element, token))
 });
 
 const imgArea = document.querySelector(".img-area");
 const imgAreaImgIcon = imgArea.querySelector(".fa-image");
 const imgAreaBtn = imgArea.querySelector(".img-select");
 const imgAreah5 = imgArea.querySelector(".valid-format");
-const imgAreaArray = [imgAreaImgIcon, imgAreaBtn, imgAreah5]
+const imgAreaArray = [imgAreaImgIcon, imgAreaBtn, imgAreah5];
 let imgPreview = document.getElementById("img-preview");
 let addImgInput = document.getElementById("img-to-add");
 imgPreview.addEventListener("click", function () {
     imgPreview.classList.toggle("img-display");
     resetImgInputPreview(imgPreview, addImgInput);
     displaySwitch(imgAreaArray)
-})
+});
 
 const formAddImgBtn = document.querySelector(".img-select");
 formAddImgBtn.addEventListener("click", function(event) {
@@ -74,14 +75,12 @@ formAddImgBtn.addEventListener("click", function(event) {
 addImgInput.addEventListener("change", function () {
     let imgNewWork = addImgInput.files[0];   
     if (imgNewWork) {
-        console.log("check type")
         const imgType = imgNewWork.type;
-        const validType = ['image/jpg', 'image/png', 'image/jpeg']
+        const validType = ['image/jpg', 'image/png', 'image/jpeg'];
         if (!validType.includes(imgType)) {
             alert("veuillez ajouter un format de fichier valide")
             this.value = " ";
         } else {
-            console.log("format d'image valide")
             const readerForPreview = new FileReader();
             readerForPreview.onload = function(e) {               
                 imgPreview.src = e.target.result;
@@ -97,7 +96,6 @@ const addWorkBtn = document.getElementById("add-work-btn");
 let addTitle = document.getElementById("add-title");
 let selectedCategories = document.getElementById("add-categories");
 addWorkBtn.addEventListener("click", async function (event) {
-
     event.preventDefault();
     let imgInput = addImgInput.files[0];
     const selectedCategory = Number(selectedCategories.value);
@@ -110,7 +108,7 @@ addWorkBtn.addEventListener("click", async function (event) {
             let workAnswer = await workRequest.json();
             const newWorkElement = addWorkToGalleries(workAnswer);
             const newWorkTrashCan = newWorkElement.querySelector(".fa-trash-can");
-            newWorkTrashCan.addEventListener("click", () => deleteElement(newWorkTrashCan, token));
+            newWorkTrashCan.addEventListener("click", () => deleteGalleriesElements(newWorkTrashCan, token));
             console.log("nouvel élément ajouté : ", newWorkElement);
             resetImgInputPreview(imgPreview, addImgInput);
             addTitle.value = "";
