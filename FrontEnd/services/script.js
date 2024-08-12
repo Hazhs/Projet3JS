@@ -1,4 +1,4 @@
-import { filterCreation, filteredWorkArray, filteredBtnClassChange, modalGalleryCreation, modalDisplay, showPortfolio, displaySwitch, newWork, addWorkToGalleries, deleteGalleriesElements,resetImgInputPreview } from "./function.js";
+import { filterCreation, filteredWorkArray, filteredBtnClassChange, modalGalleryCreation, modalDisplay, showPortfolio, displaySwitch, newWork, addWorkToGalleries, deleteGalleriesElements,resetImgInputPreview, resetInputs  } from "./function.js";
 
 let works = await fetch("http://localhost:5678/api/works").then(works => works.json());
 showPortfolio(works);
@@ -27,38 +27,33 @@ logoutBtn.addEventListener("click", function() {
 });
 const loginBtn = document.querySelector(".login-btn");
 const modifyBtn = document.querySelector(".modify-btn");
-if (token !== null) {
-    const logedArray = [loginBtn, logoutBtn, modifyBtn];
-    displaySwitch(logedArray);
-    modalGalleryCreation(works);
-    modalDisplay()
-} else {
-    filters.classList.toggle("hide")
-};
+
 
 const modalGalleryInterface = document.querySelector(".modal-gallery-interface");
 const modalAddWork = document.querySelector(".modal-add-work");
 const galleryModalBtn = document.querySelector(".modal-gallery-btn");
 const modalArrowLeft = document.querySelector(".fa-arrow-left");
 const gallerySwitchArray = [modalGalleryInterface, modalAddWork];
-galleryModalBtn.addEventListener("click", function() {
-    displaySwitch(gallerySwitchArray)
-});
-modalArrowLeft.addEventListener("click", function() {
-    displaySwitch(gallerySwitchArray)
-});
-
-const trashCanElement = document.querySelectorAll(".fa-trash-can");
-let trashCanArray = Array.from(trashCanElement);
-trashCanArray.forEach(element => {
-    element.addEventListener("click", () => deleteGalleriesElements(element, token))
-});
-
 const imgArea = document.querySelector(".img-area");
 const imgAreaImgIcon = imgArea.querySelector(".fa-image");
 const imgAreaBtn = imgArea.querySelector(".img-select");
 const imgAreah5 = imgArea.querySelector(".valid-format");
 const imgAreaArray = [imgAreaImgIcon, imgAreaBtn, imgAreah5];
+
+galleryModalBtn.addEventListener("click", function() {
+    displaySwitch(gallerySwitchArray)
+    if (imgAreaImgIcon.classList.contains("hide")) {
+        displaySwitch(imgAreaArray)
+    }
+});
+modalArrowLeft.addEventListener("click", function() {
+    displaySwitch(gallerySwitchArray)
+    resetInputs(imgPreview, addImgInput, addTitle, selectedCategories, addWorkBtn)
+    if (imgPreview.classList.contains("img-display")) {
+        imgPreview.classList.toggle("img-display")
+    }
+});
+
 let imgPreview = document.getElementById("img-preview");
 let addImgInput = document.getElementById("img-to-add");
 imgPreview.addEventListener("click", function () {
@@ -90,7 +85,7 @@ addImgInput.addEventListener("change", function () {
             }
             readerForPreview.readAsDataURL(imgNewWork);
         }}        
-    })
+});
 
 const addWorkBtn = document.getElementById("add-work-btn");
 let addTitle = document.getElementById("add-title");
@@ -110,17 +105,14 @@ addWorkBtn.addEventListener("click", async function (event) {
             const newWorkTrashCan = newWorkElement.querySelector(".fa-trash-can");
             newWorkTrashCan.addEventListener("click", () => deleteGalleriesElements(newWorkTrashCan, token));
             console.log("nouvel élément ajouté : ", newWorkElement);
-            resetImgInputPreview(imgPreview, addImgInput);
-            addTitle.value = "";
-            selectedCategories.selectedIndex = 0;
-            imgPreview.classList.toggle("img-display");
-            addWorkBtn.style.backgroundColor = "gray";
+            resetInputs(imgPreview, addImgInput, addTitle, selectedCategories, addWorkBtn)
+            
             displaySwitch(imgAreaArray)
         }
     } catch (error) {
         console.error("Erreur avec la requête fetch", error)
     }
-})
+});
 
 const AddModalArrayChange = [addImgInput, addTitle, selectedCategories];
 for (let i = 0 ; i < AddModalArrayChange.length ; i++) {
@@ -132,4 +124,19 @@ for (let i = 0 ; i < AddModalArrayChange.length ; i++) {
             addWorkBtn.style.backgroundColor = "gray"
         }
     })
-}
+};
+
+if (token !== null) {
+    const logedArray = [loginBtn, logoutBtn, modifyBtn];
+    displaySwitch(logedArray);
+    modalGalleryCreation(works);
+    modalDisplay(imgPreview, addImgInput, addTitle, selectedCategories, addWorkBtn)
+} else {
+    filters.classList.toggle("hide")
+};
+
+const trashCanElement = document.querySelectorAll(".fa-trash-can");
+let trashCanArray = Array.from(trashCanElement);
+trashCanArray.forEach(element => {
+    element.addEventListener("click", () => deleteGalleriesElements(element, token))
+});

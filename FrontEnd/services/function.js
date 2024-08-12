@@ -91,23 +91,48 @@ export async function idServerCheckRequest (loginEmailParameter, loginPasswordPa
     return loginResponse
 };
 
-export function modalDisplay () {
-    const modal = document.querySelector(".modal");
-    const modalBackground = document.querySelector(".modal-background");
-    const xmarkModal = document.querySelector(".fa-xmark");
-    const modifyBtn = document.querySelector(".modify-btn");
-    const modalDisplayArray = [xmarkModal, modifyBtn, modalBackground];
-    for (let i = 0 ; i < modalDisplayArray.length ; i++) {
-        modalDisplayArray[i].addEventListener('click', function () {
-            modal.classList.toggle("display-modal")
-    })}
-};
+export function resetImgInputPreview (preview, previewInput) {
+    preview.src="";
+    preview.alt="";
+    previewInput.value=""
+}
+
+export function resetInputs (preview, previewInput, titleValue, categoryInput, addWorkBtn) {
+    resetImgInputPreview (preview, previewInput);
+    if (preview.classList.contains("img-display")) {
+        preview.classList.remove("img-display");
+    }
+    titleValue.value = "";
+    categoryInput.selectedIndex = 0;
+    addWorkBtn.style.backgroundColor = "gray";
+}
 
 export function displaySwitch (ArrayToSwitch) {
     for (let i = 0 ; i < ArrayToSwitch.length ; i++) {
         ArrayToSwitch[i].classList.toggle("hide")
     }
 };
+
+export function modalDisplay (preview, previewInput, titleValue, categoryInput, addWorkBtn) {
+    const modal = document.querySelector(".modal");
+    const modalBackground = document.querySelector(".modal-background");
+    const xmarkModal = document.querySelector(".fa-xmark");
+    const modifyBtn = document.querySelector(".modify-btn");
+    const modalDisplayArray = [xmarkModal, modifyBtn, modalBackground];
+    const modalGalleryInterface = document.querySelector(".modal-gallery-interface");
+    const modalAddWork = document.querySelector(".modal-add-work");
+    const gallerySwitchArray = [modalGalleryInterface, modalAddWork];
+    for (let i = 0 ; i < modalDisplayArray.length ; i++) {
+        modalDisplayArray[i].addEventListener('click', function () {
+            modal.classList.toggle("display-modal");
+            resetInputs(preview, previewInput, titleValue, categoryInput, addWorkBtn)
+            if (modalGalleryInterface.classList.contains("hide")){
+                displaySwitch(gallerySwitchArray)
+            }
+    })}
+};
+
+
 
 async function workDelete (workIdSupp, token) {
     if (token === null) {
@@ -152,11 +177,3 @@ export function addWorkToGalleries (NewWork) {
     gallery.appendChild(portfolioGalleryElement);
     return modalGalleryNewElement
 };
-
-
-
-export function resetImgInputPreview (preview, previewInput) {
-    preview.src="";
-    preview.alt="";
-    previewInput.value=""
-}
